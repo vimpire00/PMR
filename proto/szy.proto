@@ -1,0 +1,74 @@
+syntax = "proto3";
+import "google/protobuf/struct.proto";
+import "google/protobuf/empty.proto";
+package tenseal;
+
+// 服务定义
+service SZY {
+  // Precomputation service - requests ONNX format, ~w
+  rpc Precomputation(PrecomputationRequest) returns (PrecomputationResponse) {}
+
+  // Computation message - sends ~u and x_s and receives y_s
+  rpc Computation(ComputationRequest) returns (ComputationResponse) {}
+
+  // Computation message - sends ~u and x_s and receives y_s
+  rpc OnlineComputation(OnlineComputationRequest) returns (OnlineComputationResponse) {}
+
+  rpc PreOnlineComputation(PreOnlineComputationRequest)  returns (PreOnlineComputationResponse) {}
+
+  rpc FinalIndex(FinalIndexRequest) returns (FinalAnsResponse) {}
+
+}
+
+
+message PrecomputationResponse{
+  repeated bytes w = 1;
+  int64 n = 2;
+}
+message PrecomputationRequest {
+  bool request_w = 1;
+  bool request_n= 2;
+}
+
+
+/*
+ * Computation:  Input: x_s, encrypted U  Output: y_s
+ */
+// The request message containing the client's u and x_s
+message ComputationRequest {
+  repeated bytes u = 1;
+  repeated int64 xs = 2;
+}
+
+// The response message containing y_s
+message ComputationResponse {
+  repeated int64 ys = 1;
+}
+
+// The request message containing the client's x
+message OnlineComputationRequest {
+  repeated bytes x = 1;
+}
+
+// The response message containing y
+message OnlineComputationResponse {
+    repeated bytes y = 1;
+}
+
+message PreOnlineComputationRequest {
+    bytes pk = 1;
+}
+
+// The response message containing index
+message PreOnlineComputationResponse {
+    int64 querynum = 1;
+}
+
+
+// The response message containing index
+message FinalIndexRequest{
+    int64 index = 1;
+}
+message FinalAnsResponse {
+    string ans = 1;
+}

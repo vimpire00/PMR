@@ -1,0 +1,38 @@
+syntax = "proto3";
+import "google/protobuf/struct.proto";
+import "google/protobuf/empty.proto";
+package tenseal;
+
+// 服务定义
+service SZY81 {
+  // Precomputation service sends ~ench0
+  rpc Precomputation(PrecomputationRequest) returns (PrecomputationResponse) {}
+    rpc Computation(ComputationRequest) returns (ComputationResponse) {}
+  rpc FinalIndex(FinalIndexRequest) returns (FinalAnsResponse) {}
+
+}
+
+message PrecomputationResponse{
+  repeated bytes h0 = 1;
+  repeated int64 enchs=2;
+}
+message PrecomputationRequest {
+  bool requesth = 1;
+}
+
+message ComputationRequest {
+  repeated bytes u = 1;
+  repeated int64 xs = 2;
+
+}
+message ComputationResponse {
+  repeated int64 ys = 1;
+}
+
+// The response message containing index
+message FinalIndexRequest{
+    int64 index = 1;
+}
+message FinalAnsResponse {
+    string ans = 1;
+}
